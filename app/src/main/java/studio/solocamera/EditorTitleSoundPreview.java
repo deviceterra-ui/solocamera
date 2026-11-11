@@ -1,0 +1,14 @@
+package studio.solocamera;
+import android.os.SystemClock;import android.content.Context;import android.net.Uri;import androidx.media3.common.*;import androidx.media3.exoplayer.ExoPlayer;import java.util.*;
+/** Only active entrances own a player. Scrubbing remains silent. */
+@androidx.annotation.OptIn(markerClass=androidx.media3.common.util.UnstableApi.class)
+final class EditorTitleSoundPreview {
+ private final Context context;private final IdentityHashMap<EditorProject.Caption,Entry> entries=new IdentityHashMap<>();
+ private static final class Entry{ExoPlayer player;int design;boolean failed;long lastSeekWall;}
+ EditorTitleSoundPreview(Context c){context=c;}
+ void sync(EditorProject p,long time,boolean seek,boolean playing,boolean muted){Iterator<Map.Entry<EditorProject.Caption,Entry>> it=entries.entrySet().iterator();while(it.hasNext()){Map.Entry<EditorProject.Caption,Entry> e=it.next();EditorProject.Caption c=e.getKey();if(!p.captions.contains(c)||!playing||muted||!EditorTitleSounds.active(c.style)||time<c.at||time>=Math.min(c.end,c.at+EditorTitleSounds.DURATION)||e.getValue().design!=c.style.titleDesign){e.getValue().player.release();it.remove();}}
+ if(!playing||muted)return;for(EditorProject.Caption c:p.captions){if(!EditorTitleSounds.active(c.style)||time<c.at||time>=Math.min(c.end,c.at+EditorTitleSounds.DURATION))continue;Entry e=entries.get(c);if(e==null){e=new Entry();e.player=new ExoPlayer.Builder(context).setLoadControl(new androidx.media3.exoplayer.DefaultLoadControl.Builder().setBufferDurationsMs(50,500,0,50).setTargetBufferBytes(64*1024).setPrioritizeTimeOverSizeThresholds(false).build()).build();e.design=c.style.titleDesign;final Entry entry=e;e.player.addListener(new Player.Listener(){@Override public void onPlayerError(PlaybackException error){entry.failed=true;}});try{e.player.setMediaItem(MediaItem.fromUri(Uri.fromFile(EditorTitleSounds.file(c.style))));e.player.prepare();}catch(Exception error){e.failed=true;}e.player.seekTo(time-c.at);e.lastSeekWall=SystemClock.elapsedRealtime();entries.put(c,e);}else if(seek||(!e.failed&&e.player.getPlaybackState()==Player.STATE_READY&&SystemClock.elapsedRealtime()-e.lastSeekWall>750&&Math.abs(e.player.getCurrentPosition()-(time-c.at))>180)){e.player.seekTo(time-c.at);e.lastSeekWall=SystemClock.elapsedRealtime();}e.player.setVolume((float)c.style.titleSoundVolume);}}
+ String diagnostics(){StringBuilder result=new StringBuilder();for(Entry e:entries.values())result.append(e.design).append(":").append(e.player.getPlaybackState()).append("/").append(e.player.getCurrentPosition()).append(e.failed?" failed":"").append(" ");return result.toString();}
+ void run(boolean value){for(Entry e:entries.values())e.player.setPlayWhenReady(value&&!e.failed);}
+ void pause(){release();}void release(){for(Entry e:entries.values())e.player.release();entries.clear();}
+}

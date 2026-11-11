@@ -1,0 +1,4 @@
+package studio.solocamera;
+public final class DesktopPairingCodeTest {
+ public static void main(String[] args){String key="0123456789abcdef0123456789abcdef";String[] p=DesktopPairingCode.decode("solocamera-desktop:1:192.168.1.20:49123:"+key);if(!p[0].equals("192.168.1.20")||!p[1].equals("49123")||!p[2].equals(key))throw new AssertionError();String[] invalid={null,"https://example.com","solocamera-desktop:2:192.168.1.20:40:"+key,"solocamera-desktop:1:127.0.0.1:40:"+key,"solocamera-desktop:1:192.168.1.20:0:"+key,"solocamera-desktop:1:192.168.1.20:65536:"+key,"solocamera-desktop:1:192.168.1.20:40:wrong"};for(String raw:invalid){boolean rejected=false;try{DesktopPairingCode.decode(raw);}catch(IllegalArgumentException e){rejected=true;}if(!rejected)throw new AssertionError("Accepted invalid code");}System.out.println("PASS Desktop QR validation and invalid payload rejection");}
+}

@@ -1,0 +1,14 @@
+package studio.solocamera;
+import android.app.*;import android.os.*;import android.content.*;import java.nio.charset.StandardCharsets;
+import com.google.zxing.*;import com.google.zxing.common.HybridBinarizer;
+/** Explicit QA harness: decodes a generated QR through the phone's actual ZXing decoder,
+ * then hands it to the real confirmation and connection flow. Approval remains visible. */
+public final class WebcamQrChecks {
+ public static void run(Instrumentation instrumentation,Bundle args){String path=args.getString("codeFile","/data/local/tmp/solo-desktop-code.txt");if(!path.matches("/data/local/tmp/[a-zA-Z0-9._-]+"))throw new IllegalArgumentException();Bundle result=new Bundle();try{
+ String raw;try(var input=new ParcelFileDescriptor.AutoCloseInputStream(instrumentation.getUiAutomation().executeShellCommand("cat "+path))){raw=new String(input.readAllBytes(),StandardCharsets.UTF_8).trim();}DesktopPairingCode.decode(raw);
+ var matrix=new com.google.zxing.qrcode.QRCodeWriter().encode(raw,BarcodeFormat.QR_CODE,512,512);int[] pixels=new int[512*512];for(int y=0;y<512;y++)for(int x=0;x<512;x++)pixels[y*512+x]=matrix.get(x,y)?0xff000000:0xffffffff;String decoded=new com.google.zxing.qrcode.QRCodeReader().decode(new BinaryBitmap(new HybridBinarizer(new RGBLuminanceSource(512,512,pixels)))).getText();if(!raw.equals(decoded))throw new AssertionError("QR roundtrip failed");
+ MainActivity activity=(MainActivity)instrumentation.startActivitySync(new Intent(instrumentation.getTargetContext(),MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));instrumentation.runOnMainSync(()->activity.onActivityResult(40,Activity.RESULT_OK,new Intent().putExtra("pairing",decoded)));result.putString("checks","PASS QR encode/decode and real Webcam confirmation displayed");instrumentation.sendStatus(1,result);click(instrumentation,"CONNECT",10000);click(instrumentation,"ALLOW",45000);Thread.sleep(12000);instrumentation.finish(Activity.RESULT_OK,result);
+ }catch(Throwable e){result.putString("failure",e.toString());instrumentation.finish(Activity.RESULT_CANCELED,result);}}
+ private static void click(Instrumentation instrumentation,String text,long timeout)throws Exception{long end=SystemClock.elapsedRealtime()+timeout;while(SystemClock.elapsedRealtime()<end){var root=instrumentation.getUiAutomation().getRootInActiveWindow();if(root!=null){var nodes=root.findAccessibilityNodeInfosByText(text);for(var node:nodes){if(node.isClickable()&&"android.widget.Button".contentEquals(node.getClassName())&&node.getText()!=null&&text.equalsIgnoreCase(node.getText().toString())){if(!node.performAction(android.view.accessibility.AccessibilityNodeInfo.ACTION_CLICK))throw new AssertionError("Unable to click "+text);Thread.sleep(300);return;}}}Thread.sleep(200);}throw new AssertionError("Missing approval button: "+text);}}
+
+

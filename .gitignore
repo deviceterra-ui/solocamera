@@ -1,0 +1,47 @@
+# Local toolchains, IDE state, and build products
+.gradle/
+.idea/
+.vscode/
+.dotnet/
+**/build/
+**/bin/
+**/obj/
+**/dist/
+local.properties
+*.iml
+
+# Signing material and environment-specific configuration
+*.jks
+*.keystore
+*.p12
+*.pfx
+*.pem
+*.key
+.env
+.env.*
+!.env.example
+
+# Generated output, device tests, and temporary media
+output/
+tmp/
+qa/
+# The runnable JVM test sources live at tests/*.java. Everything else under
+# tests/ is local media, screenshots, reports or generated output.
+tests/*
+!tests/*.java
+desktop/qa/
+desktop/*.wav
+desktop/*.jpg
+desktop/*.jpeg
+desktop/*.png
+desktop/*.url
+desktop/*.txt
+desktop/cameras.txt
+desktop/vendor/*.zip
+*-window.xml
+phone-window.xml
+*.log
+
+# Python tooling
+__pycache__/
+*.pyc

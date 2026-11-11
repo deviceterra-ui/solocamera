@@ -1,0 +1,23 @@
+package studio.solocamera;
+
+import android.media.*;
+import android.os.SystemClock;
+import java.io.*;
+import java.nio.ByteBuffer;
+
+/** Converts the rendered mix in bounded PCM chunks, without loading the full sound into RAM. */
+final class EditorAudioFormats {
+    interface Cancellation {boolean cancelled();}
+    static File convert(File source,String format,Cancellation cancellation)throws Exception{
+        if(format.equals("m4a"))return source;if(!format.equals("wav")&&!format.equals("mp3"))throw new IOException("Unsupported audio export format");
+        File output=new File(source.getParentFile(),source.getName()+"."+format);MediaExtractor extractor=new MediaExtractor();MediaCodec codec=null;Mp3AudioEncoder mp3=null;boolean valid=false;int rate=0,channels=0;long bytes=0;
+        try(RandomAccessFile wav=new RandomAccessFile(output,"rw")){wav.setLength(0);if(format.equals("wav"))wav.write(new byte[44]);extractor.setDataSource(source.getAbsolutePath());int track=-1;MediaFormat input=null;for(int i=0;i<extractor.getTrackCount();i++){MediaFormat candidate=extractor.getTrackFormat(i);if(candidate.getString(MediaFormat.KEY_MIME).startsWith("audio/")){track=i;input=candidate;break;}}if(track<0)throw new IOException("Rendered file has no audio");extractor.selectTrack(track);input.setInteger(MediaFormat.KEY_PCM_ENCODING,AudioFormat.ENCODING_PCM_16BIT);codec=MediaCodec.createDecoderByType(input.getString(MediaFormat.KEY_MIME));codec.configure(input,null,null,0);codec.start();MediaCodec.BufferInfo info=new MediaCodec.BufferInfo();boolean inputEnded=false,done=false;long lastOutput=SystemClock.elapsedRealtime();
+            while(!done){if(cancellation.cancelled())throw new IOException("Export canceled");if(!inputEnded){int index=codec.dequeueInputBuffer(10000);if(index>=0){ByteBuffer buffer=codec.getInputBuffer(index);int size=extractor.readSampleData(buffer,0);if(size<0){codec.queueInputBuffer(index,0,0,0,MediaCodec.BUFFER_FLAG_END_OF_STREAM);inputEnded=true;}else{codec.queueInputBuffer(index,0,size,extractor.getSampleTime(),0);extractor.advance();}}}
+                int index=codec.dequeueOutputBuffer(info,10000);if(index==MediaCodec.INFO_OUTPUT_FORMAT_CHANGED){MediaFormat pcm=codec.getOutputFormat();rate=pcm.getInteger(MediaFormat.KEY_SAMPLE_RATE);channels=pcm.getInteger(MediaFormat.KEY_CHANNEL_COUNT);if(channels<1||channels>2||rate<8000||rate>96000)throw new IOException("Unsupported audio sample format");if(pcm.containsKey(MediaFormat.KEY_PCM_ENCODING)&&pcm.getInteger(MediaFormat.KEY_PCM_ENCODING)!=AudioFormat.ENCODING_PCM_16BIT)throw new IOException("Decoder did not return 16-bit PCM");if(format.equals("mp3")){final RandomAccessFile destination=wav;mp3=new Mp3AudioEncoder(rate,channels,new OutputStream(){public void write(int b)throws IOException{destination.write(b);}public void write(byte[] b,int at,int length)throws IOException{destination.write(b,at,length);}});}lastOutput=SystemClock.elapsedRealtime();}
+                else if(index>=0){try{if(info.size>0&&(info.flags&MediaCodec.BUFFER_FLAG_CODEC_CONFIG)==0){ByteBuffer buffer=codec.getOutputBuffer(index);buffer.position(info.offset);buffer.limit(info.offset+info.size);byte[] pcm=new byte[info.size];buffer.get(pcm);if(rate==0){MediaFormat f=codec.getOutputFormat();rate=f.getInteger(MediaFormat.KEY_SAMPLE_RATE);channels=f.getInteger(MediaFormat.KEY_CHANNEL_COUNT);}if(format.equals("wav"))wav.write(pcm);else{if(mp3==null)throw new IOException("MP3 encoder was not initialized");mp3.write(pcm);}bytes+=pcm.length;if(bytes>0xfffffff0L)throw new IOException("WAV audio exceeds the 4 GB container limit");lastOutput=SystemClock.elapsedRealtime();}done=(info.flags&MediaCodec.BUFFER_FLAG_END_OF_STREAM)!=0;}finally{codec.releaseOutputBuffer(index,false);}}
+                if(SystemClock.elapsedRealtime()-lastOutput>10000)throw new IOException("Audio conversion stopped producing samples");
+            }if(bytes==0)throw new IOException("Audio export is empty");if(mp3!=null)mp3.finish();if(format.equals("wav")){wav.seek(0);wav.writeBytes("RIFF");little(wav,bytes+36,4);wav.writeBytes("WAVEfmt ");little(wav,16,4);little(wav,1,2);little(wav,channels,2);little(wav,rate,4);little(wav,rate*channels*2L,4);little(wav,channels*2,2);little(wav,16,2);wav.writeBytes("data");little(wav,bytes,4);}valid=true;return output;
+        }finally{if(mp3!=null)mp3.close();if(codec!=null){try{codec.stop();}catch(Exception ignored){}codec.release();}extractor.release();if(!valid)output.delete();}
+    }
+    private static void little(RandomAccessFile file,long value,int count)throws IOException{for(int i=0;i<count;i++)file.write((int)(value>>(8*i))&255);}
+}

@@ -1,0 +1,12 @@
+.dotnet/
+qa/
+dist/
+**/bin/
+**/obj/
+*.wav
+*.jpg
+*.jpeg
+*.png
+*.url
+*.txt
+*.log

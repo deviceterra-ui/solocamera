@@ -1,0 +1,66 @@
+# Third-party components
+
+Solo Camera uses AndroidX Media3 and supporting open-source libraries for playback, preview and export. Official Maven artifacts and their POM license declarations are mirrored under vendor/maven for offline builds. The original artifact files retain their bundled notices.
+
+- org.jetbrains.kotlin:kotlin-bom:1.8.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.annotation:annotation-jvm:1.6.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- org.jetbrains.kotlin:kotlin-stdlib:1.8.0: The Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- org.jetbrains.kotlin:kotlin-stdlib-common:1.8.0: The Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- org.jetbrains:annotations:13.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.media3:media3-transformer:1.8.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.media3:media3-exoplayer:1.8.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.media3:media3-common:1.8.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- com.google.guava:guava:33.3.1-android: See the artifact POM and upstream source for inherited license declarations.
+- com.google.guava:failureaccess:1.0.2: See the artifact POM and upstream source for inherited license declarations.
+- com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava: See the artifact POM and upstream source for inherited license declarations.
+- com.google.code.findbugs:jsr305:3.0.2: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- org.checkerframework:checker-qual:3.43.0: The MIT License (http://opensource.org/licenses/MIT)
+- com.google.errorprone:error_prone_annotations:2.28.0: Apache 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- com.google.j2objc:j2objc-annotations:3.0.0: Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.annotation:annotation-experimental:1.3.1: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- org.jetbrains.kotlin:kotlin-stdlib:1.7.10: The Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- org.jetbrains.kotlin:kotlin-stdlib-common:1.7.10: The Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.annotation:annotation:1.6.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.media3:media3-container:1.8.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.media3:media3-datasource:1.8.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.media3:media3-database:1.8.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.exifinterface:exifinterface:1.3.6: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.annotation:annotation:1.2.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.media3:media3-decoder:1.8.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.media3:media3-extractor:1.8.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.collection:collection:1.2.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.annotation:annotation:1.1.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.core:core:1.8.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.annotation:annotation-experimental:1.1.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.collection:collection:1.0.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.annotation:annotation:1.0.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.concurrent:concurrent-futures:1.0.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- com.google.guava:listenablefuture:1.0: See the artifact POM and upstream source for inherited license declarations.
+- androidx.lifecycle:lifecycle-runtime:2.3.1: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.lifecycle:lifecycle-common:2.3.1: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.arch.core:core-common:2.1.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.arch.core:core-runtime:2.1.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.versionedparcelable:versionedparcelable:1.1.1: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.media3:media3-effect:1.8.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.media3:media3-muxer:1.8.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.concurrent:concurrent-futures:1.2.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.media3:media3-ui:1.8.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.recyclerview:recyclerview:1.3.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.core:core:1.7.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.customview:customview:1.0.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.core:core:1.0.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.lifecycle:lifecycle-runtime:2.0.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.lifecycle:lifecycle-common:2.0.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.arch.core:core-common:2.0.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.versionedparcelable:versionedparcelable:1.0.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.customview:customview-poolingcontainer:1.0.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.core:core-ktx:1.5.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- org.jetbrains.kotlin:kotlin-stdlib:1.4.31: The Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- org.jetbrains.kotlin:kotlin-stdlib-common:1.4.31: The Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- androidx.core:core:1.5.0: The Apache Software License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- org.jetbrains.kotlin:kotlin-stdlib:1.6.21: The Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+- org.jetbrains.kotlin:kotlin-stdlib-common:1.6.21: The Apache License, Version 2.0 (http://www.apache.org/licenses/LICENSE-2.0.txt)
+
+ZXing Core 3.5.3 is distributed under Apache License 2.0; see app/libs/ZXING-LICENSE.txt.
+
+Font Awesome Free 6.7.2 icons by Fonticons, Inc. (https://fontawesome.com), CC BY 4.0 (https://creativecommons.org/licenses/by/4.0/). Original SVGs and source manifest: assets/social-icons. Full upstream license: assets/licenses/fontawesome-LICENSE.txt. Platform trademarks belong to their respective owners; no endorsement is implied.

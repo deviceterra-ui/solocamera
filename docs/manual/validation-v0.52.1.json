@@ -1,0 +1,24 @@
+{
+  "version": "0.52.1",
+  "build": 58,
+  "pages": 98,
+  "chapters": 92,
+  "screens_used": 40,
+  "rendered_pages": 98,
+  "layout_overflow": [],
+  "clickable_links": 189,
+  "device": "TECNO KM7k",
+  "new_device_screens": [
+    "01-home.png",
+    "48-live-obs-settings.png",
+    "49-screen-recording-controls.png",
+    "50-studio-new-project.png"
+  ],
+  "checks": {
+    "studio_home": true,
+    "obs_live": true,
+    "obs_feed_choice": true,
+    "privacy_blackout": true,
+    "export_repair": true
+  }
+}

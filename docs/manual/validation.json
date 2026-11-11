@@ -1,0 +1,22 @@
+{
+  "version": "0.45.0 / build 49",
+  "pages": 86,
+  "embedded_screenshot_assets": 36,
+  "clickable_links": 166,
+  "invalid_internal_links": [],
+  "missing_glyphs": 0,
+  "pdf_bytes": 10115708,
+  "updated_workflow_pages": [
+    3,
+    4,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36
+  ],
+  "visual_review": "All 86 rendered pages reviewed in five contact sheets; pages 2, 31 and 33 also inspected enlarged. No clipping, overlaps or broken screenshot layout observed.",
+  "coverage": "Existing camera, monitoring, Studio, AI, publishing-draft and export handbook plus front/back presenter, camera handoff, annotations, OBS live screen/audio, USB, and troubleshooting."
+}

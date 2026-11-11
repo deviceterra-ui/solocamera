@@ -1,0 +1,10 @@
+package studio.solocamera;
+import android.content.Context;import android.graphics.*;import android.view.*;
+/** Drag-to-cover overlay uses the exact fitted video frame, excluding letterbox bars. */
+final class EditorPrivacyDrawView extends View {
+ private final float aspect;private final Paint p=new Paint(3);private final RectF box=new RectF();private float startX,startY;private boolean drawn;EditorPrivacyDrawView(Context c,int w,int h){super(c);aspect=w/(float)h;setContentDescription("Draw a privacy blackout rectangle over the video");}
+ RectF frame(){float w=getWidth(),h=getHeight();if(w/h>aspect)w=h*aspect;else h=w/aspect;return new RectF((getWidth()-w)/2,(getHeight()-h)/2,(getWidth()+w)/2,(getHeight()+h)/2);}
+ RectF selection(){if(!drawn)return null;RectF f=frame();return new RectF((box.left-f.left)/f.width(),(box.top-f.top)/f.height(),(box.right-f.left)/f.width(),(box.bottom-f.top)/f.height());}
+ @Override public boolean onTouchEvent(MotionEvent e){RectF f=frame();float x=Math.max(f.left,Math.min(f.right,e.getX())),y=Math.max(f.top,Math.min(f.bottom,e.getY()));if(e.getActionMasked()==MotionEvent.ACTION_DOWN){if(!f.contains(e.getX(),e.getY()))return false;getParent().requestDisallowInterceptTouchEvent(true);startX=x;startY=y;box.set(x,y,x,y);drawn=false;}else if(e.getActionMasked()==MotionEvent.ACTION_MOVE||e.getActionMasked()==MotionEvent.ACTION_UP){box.set(Math.min(startX,x),Math.min(startY,y),Math.max(startX,x),Math.max(startY,y));drawn=box.width()>=4&&box.height()>=4;if(e.getActionMasked()==MotionEvent.ACTION_UP)getParent().requestDisallowInterceptTouchEvent(false);}else if(e.getActionMasked()==MotionEvent.ACTION_CANCEL){drawn=false;getParent().requestDisallowInterceptTouchEvent(false);}invalidate();return true;}
+ @Override protected void onDraw(Canvas c){if(drawn){p.setColor(Color.BLACK);p.setStyle(Paint.Style.FILL);c.drawRect(box,p);p.setColor(0xffffc857);p.setStrokeWidth(2*getResources().getDisplayMetrics().density);p.setStyle(Paint.Style.STROKE);c.drawRect(box,p);p.setStyle(Paint.Style.FILL);}}
+}
