@@ -1,6 +1,6 @@
 # Solo Camera
 
-Solo Camera is a native Android creator app with phone-to-phone camera monitoring, a teleprompter, screen recording, a multitrack video editor, and a Windows receiver for OBS. The Android app in this repository is **0.52.1 (build 58)**. It is a development build; camera capabilities and sustained performance depend on the device.
+Solo Camera is a native Android creator app with phone-to-phone camera monitoring, a teleprompter, screen recording, a multitrack video editor, and a Windows receiver for OBS. The Android app in this repository is **0.52.2 (build 59)**. A signed Play release bundle can be built from this source. It has not been published on Google Play. Camera capabilities and sustained performance depend on the device.
 
 ## What works
 
@@ -14,7 +14,7 @@ Solo Camera is a native Android creator app with phone-to-phone camera monitorin
 
 ## Start here
 
-1. Install Android Studio with **JDK 17**, Android SDK Platform **35**, and the matching SDK build tools. Open this folder as the Android project. On Windows, set `local.properties` to your SDK path, for example `sdk.dir=C:/Users/you/AppData/Local/Android/Sdk`. This machine-specific file is ignored by Git.
+1. Install Android Studio with **JDK 21**, Android SDK Platform **36**, and the matching SDK build tools. Open this folder as the Android project. On Windows, set `local.properties` to your SDK path, for example `sdk.dir=C:/Users/you/AppData/Local/Android/Sdk`. This machine-specific file is ignored by Git.
 2. Build the debug app with `./gradlew :app:assembleDebug` (PowerShell: `.\gradlew.bat :app:assembleDebug`). Install the resulting `app/build/outputs/apk/debug/app-debug.apk` on both Android phones.
 3. Put both phones on the same Wi-Fi, or connect the monitor to the camera phone's hotspot. On the tripod phone open **Camera > Pair phones**. On the other phone open **Monitor > Scan QR**, scan the camera's code and approve the request on the camera phone.
 4. For Windows OBS use, build the receiver as described in [desktop/README.md](desktop/README.md). Pair its slot by QR. For a phone-screen presentation, follow [desktop/SCREEN_DEMO.md](desktop/SCREEN_DEMO.md).
@@ -29,6 +29,7 @@ Camera recording and peer monitoring work on a local network without internet. B
 - [Feature status](docs/FEATURE_STATUS.md) — implemented behavior and current limits.
 - [Windows receiver](desktop/README.md) and [live OBS screen demo](desktop/SCREEN_DEMO.md).
 - [Publishing architecture](PUBLISHING_ARCHITECTURE.md), [screen recording](SCREEN_RECORDING.md), [privacy blackout](PRIVACY_BLACKOUT.md), [profession titles](PROFESSION_PRESETS.md) and [third-party notices](THIRD_PARTY_NOTICES.md).
+- [Google Play release checklist](docs/play/README.md) and [store listing draft](docs/play/listing.md).
 - [Validation record](VALIDATION.md) and [historical implementation notes](docs/IMPLEMENTATION_HISTORY.md). Historical notes describe earlier builds and are not the current feature contract.
 
 ## Repository boundaries

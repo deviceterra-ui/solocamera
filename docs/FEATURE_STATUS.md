@@ -1,4 +1,4 @@
-# Feature status — Android 0.52.1
+# Feature status — Android 0.52.2
 
 This document separates working local features from planned integrations. A visible option does not imply that an external service is live.
 

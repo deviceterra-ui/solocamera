@@ -17,6 +17,9 @@ local.properties
 *.pfx
 *.pem
 *.key
+release/upload-signing.properties
+release/*.p12
+release/*.jks
 .env
 .env.*
 !.env.example

@@ -1,12 +1,27 @@
 plugins { id 'com.android.application' }
 def publishingServiceUrl = providers.gradleProperty('PUBLISHING_SERVICE_URL').getOrElse('')
+def localUpload = new Properties()
+def localUploadFile = rootProject.file('release/upload-signing.properties')
+if (localUploadFile.exists()) localUploadFile.withInputStream { localUpload.load(it) }
+def uploadValue = { name -> providers.gradleProperty(name).getOrElse(localUpload.getProperty(name, '')) }
 android {
     namespace 'studio.solocamera'
-    compileSdk 35
-    defaultConfig { applicationId 'studio.solocamera'; minSdk 29; targetSdk 35; versionCode 58; versionName '0.52.1'; testInstrumentationRunner 'studio.solocamera.EditorDeviceChecks'; buildConfigField 'String', 'PUBLISHING_SERVICE_URL', "\"${publishingServiceUrl}\"" }
+    compileSdk 36
+    defaultConfig { applicationId 'studio.solocamera'; minSdk 29; targetSdk 36; versionCode 59; versionName '0.52.2'; testInstrumentationRunner 'studio.solocamera.EditorDeviceChecks'; buildConfigField 'String', 'PUBLISHING_SERVICE_URL', "\"${publishingServiceUrl}\"" }
     buildFeatures { buildConfig true }
     compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
-    buildTypes { release { minifyEnabled false } }
+    def uploadStore = uploadValue('SOLO_UPLOAD_KEYSTORE')
+    if (uploadStore) {
+        signingConfigs {
+            upload {
+                storeFile file(uploadStore)
+                storePassword uploadValue('SOLO_UPLOAD_STORE_PASSWORD')
+                keyAlias uploadValue('SOLO_UPLOAD_KEY_ALIAS')
+                keyPassword uploadValue('SOLO_UPLOAD_KEY_PASSWORD')
+            }
+        }
+    }
+    buildTypes { release { minifyEnabled false; if (uploadStore) signingConfig signingConfigs.upload } }
 }
 dependencies { implementation files('libs/jump3r-1.0.5.jar'); implementation files('libs/core-3.5.3.jar'); implementation 'androidx.annotation:annotation-jvm:1.6.0'; implementation files('libs/media3-transformer-bounded-preview.aar'); implementation 'androidx.media3:media3-muxer:1.8.0'; implementation 'androidx.concurrent:concurrent-futures:1.2.0'; implementation 'androidx.media3:media3-exoplayer:1.8.0'; implementation 'androidx.media3:media3-effect:1.8.0'; implementation 'androidx.media3:media3-ui:1.8.0'; implementation 'com.google.android.gms:play-services-tflite-java:16.5.0' }
 

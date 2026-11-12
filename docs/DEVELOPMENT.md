@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-The Android app uses Java 17, Android Gradle Plugin 8.8.2, Gradle Wrapper 8.10.2, compile/target SDK 35 and minimum SDK 29. Use JDK 17 and Android SDK Platform 35. The wrapper downloads Gradle when it is not cached. Dependency resolution uses the pinned `vendor/maven` mirror first, then Google Maven and Maven Central. Keep `app/libs` and `vendor/maven` when building from this checkout.
+The Android app uses Java 17 source compatibility, Android Gradle Plugin 8.8.2, Gradle Wrapper 8.10.2, compile/target SDK 36 and minimum SDK 29. Use JDK 21 and Android SDK Platform 36. The wrapper downloads Gradle when it is not cached. Dependency resolution uses the pinned `vendor/maven` mirror first, then Google Maven and Maven Central. Keep `app/libs` and `vendor/maven` when building from this checkout.
 
 The Windows receiver targets .NET 10 with WPF, so it builds and runs on Windows. Its QRCoder DLL is referenced from `desktop/vendor/qrcoder` with its license nearby. OBS Studio 28+ is needed for scene setup through OBS WebSocket; OBS 32 was used during local testing. OBS itself is not bundled.
 
